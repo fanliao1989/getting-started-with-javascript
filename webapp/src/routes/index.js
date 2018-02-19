@@ -1,35 +1,33 @@
 import express from 'express';
-import config from '../config';
-import fs from 'fs';
-import jsonfile from 'jsonfile';
+import { apiUrl } from '../config';
+import { get } from '../request';
+import MarkdownIt from 'markdown-it';
 
 var router = express.Router();
-var catelog = require('../public/content/catelog');
+
+var md = new MarkdownIt();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  fs.readdir(config.homeworkPath, function(err, files) {
-    if (err) {
-      next();
-    } else {
-      var homeworkInfoList = [];
-      files.forEach((item, index) => {
-        let file = jsonfile.readFileSync(
-          config.homeworkPath + 'lesson' + (index + 1) + '.json'
-        );
-        homeworkInfoList.push({
-          url: 'homework/' + (index + 1),
-          count: file.length
-        });
-      });
-      res.render('index', {
-        homeworkInfoList,
-        gitTopicsList: catelog.gitTopicsList,
-        pptList: catelog.pptList,
-        topicsList: catelog.topicsList
-      });
-    }
-  });
+router.get('/', async function(req, res, next) {
+  try {
+    let wordsResult = await get({
+      url: `${apiUrl}/learnJS/course/1/words`
+    });
+    let teamInfoResult = await get({
+      url: `${apiUrl}/learnJS/course/1/teams`
+    });
+    let rankingResult = await get({
+      url: `${apiUrl}/learnJS/course/1/ranking`
+    });
+
+    res.render('index', {
+      words: wordsResult.words,
+      teamInfo: md.render(teamInfoResult.teamInfo),
+      rankingInfo: rankingResult.ranking
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;

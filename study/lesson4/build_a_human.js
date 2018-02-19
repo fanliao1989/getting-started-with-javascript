@@ -1,10 +1,8 @@
 /*
 *
-*  
-*
 *  【运行步骤】
-*  1. 终端进入到getting-started-with-javascript/study/lesson3
-*  2. > node sample_code.js
+*  1. 终端进入到getting-started-with-javascript/study/lesson4
+*  2. > node build_a_human.js
 *
 */
 
@@ -23,7 +21,7 @@ var myLikeColorsList = ['blue', 'green', 'black', 'write'];
 var myLikeFoods = ['刀削面', '拉面', '牛肉面', '杂酱面', '麻辣面', '烩面', '莜面'];
 
 // 定义一个函数变量buildPerson（表达式函数定义法）
-var buildPerson = function () {
+var buildPerson = function() {
   var xiaoming = {
     name: name,
     config: {
@@ -43,10 +41,10 @@ var buildPerson = function () {
       locaitonBase,
       company
     }
-  }
-  
+  };
+
   return xiaoming;
-}
+};
 
 //调用(执行)buildPerson函数，根据基本信息构建
 var personObj = buildPerson();

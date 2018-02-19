@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "prestart": "npm run -s build",
-    "start": "node dist/bin/www",
+    "start": "NODE_ENV=production PORT=3002 node dist/bin/www",
     "dev": "nodemon src/bin/www --exec \"node -r dotenv/config -r babel-register\"",
     "clean": "rimraf dist",
     "build": "npm run clean && mkdir -p dist && babel src -s -D -d dist",
@@ -23,9 +23,11 @@
     "express": "~4.15.2",
     "jsonfile": "3.0.1",
     "lodash": "4.0.0",
+    "markdown-it": "^8.4.0",
     "morgan": "~1.8.1",
+    "rimraf": "^2.6.1",
     "serve-favicon": "~2.4.2",
-    "rimraf": "^2.6.1"
+    "superagent": "^3.6.0"
   },
   "devDependencies": {
     "babel-jest": "^20.0.0",
@@ -73,6 +75,9 @@
     }
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "globals": {
+      "__DEV__": true
+    }
   }
 }
